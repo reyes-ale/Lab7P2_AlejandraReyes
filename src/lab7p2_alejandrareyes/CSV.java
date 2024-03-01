@@ -4,8 +4,10 @@
  */
 package lab7p2_alejandrareyes;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -88,12 +90,44 @@ public class CSV extends javax.swing.JFrame {
 
         jtable_tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
                 "id", "name", "category", "price", "aisle", "bin"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jtable_tablaProductos);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -197,16 +231,13 @@ public class CSV extends javax.swing.JFrame {
        
         
         if (comando[0].equals("./create") && comando[2].equals("-single") && tabla != null){
-            File archivo = null;
             try{
-                administrarProd ap = new administrarProd(comando[1]);
+                administrarProd ap = new administrarProd("./"+comando[1]);
                 ap.cargarArchivo();
+                
                 int id=0,category=0,aisle=0,bin=0;
                 String nombre="";
                 double price=0;
-                
-                tabla.setRowCount(tabla.getRowCount());
-                tabla.setColumnCount(tabla.getColumnCount());
                 
                 for (int i = 0; i < tabla.getRowCount(); i++) {
                     for (int j = 0; j < tabla.getColumnCount(); j++) {
@@ -229,24 +260,83 @@ public class CSV extends javax.swing.JFrame {
 
                             }
                         }
-                        Producto p = new Producto(id, category, aisle, bin, nombre, price);
-                        ap.getListaProductos().add(p);
                         
                     }
-                    
                 }
+                Producto p = new Producto(id, category, aisle, bin, nombre, price);
+                    System.out.println(p);
+                    ap.getListaProductos().add(p);
+                
                 
                 ap.escribirArchivo();
                 
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        else  if (comando[0].equals("./load") ){
+                int cont =0;
             
+                FileReader fr= null;
+                BufferedReader br =null;
+                File f= null;
+                
+                try {
+                 f = new File(comando[1]);
+                 if (f.exists()){
+                     fr = new FileReader(f);
+                     br = new BufferedReader(fr);
+                     String linea = "";
+                     while  ((linea=br.readLine()) != null){
+                         if (cont==0){
+                             String titulos [] = linea.split(",");
+                             for (int i = 0; i < titulos.length; i++) {
+                                 tabla.addColumn(titulos[i]);
+                             }
+                             cont++;
+                         }
+                         else{
+                             String productos [] = linea.split(",");
+                             for (int i = 0; i < productos.length; i++) {
+                                 tabla.addRow(productos);
+                             }
+                         }
+                     }
+                     jtable_tablaProductos.setModel(tabla);
+                      br.close();
+                 fr.close();
+                     
+                 }
+                
+                 else {
+                     JOptionPane.showMessageDialog(this, "Este archivo no existe");
+                 }
+            } catch (Exception e) {
+            }
+               
+                
+                
+                
+                
+                
+                    JOptionPane.showMessageDialog(this, "Este archivo no existe");
+                
             
         }
-        else{
-            JOptionPane.showMessageDialog(this, "La tabla esta vacia, ingrese datos");
+        else  if (comando[0].equals("./clear") ){
+            for (int i = 0; i < tabla.getRowCount(); i++) {
+                    for (int j = 0; j < tabla.getColumnCount(); j++) {
+                        tabla.getValueAt(i, j);
+                    }
+                    
+                    }
+            
+            jtable_tablaProductos.setModel(tabla);
         }
+        else  if (comando[0].equals("./refresh") ){
+            
+        }
+        
         
     }//GEN-LAST:event_bt_enterMouseClicked
 
