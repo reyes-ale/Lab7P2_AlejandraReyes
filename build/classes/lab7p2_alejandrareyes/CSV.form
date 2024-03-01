@@ -208,6 +208,9 @@
                   <TreeModel code="Archivos CSV"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jtree_archivosCSVMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

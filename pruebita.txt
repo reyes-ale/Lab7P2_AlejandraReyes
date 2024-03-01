@@ -1,2 +1,0 @@
-id, nombre, cat, bin, precio, efw
-1, lolazo,4,4,4,4

@@ -1,0 +1,2 @@
+id,nombre,cat,bin,sd,gf
+1,gf,1,1,1,1

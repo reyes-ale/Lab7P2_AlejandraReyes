@@ -12,11 +12,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Load File"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_loadFileActionPerformed"/>
+          </Events>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="jmi_refresh">
           <Properties>
             <Property name="text" type="java.lang.String" value="Refresh Trees"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_refreshActionPerformed"/>
+          </Events>
         </MenuItem>
       </SubComponents>
     </Container>
@@ -208,6 +214,9 @@
                   <TreeModel code="Archivos CSV"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jtree_archivosCSVMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

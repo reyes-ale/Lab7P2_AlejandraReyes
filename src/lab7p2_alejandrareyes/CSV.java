@@ -14,8 +14,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.naming.spi.DirectoryManager;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -65,9 +68,19 @@ public class CSV extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
 
         jmi_loadFile.setText("Load File");
+        jmi_loadFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_loadFileActionPerformed(evt);
+            }
+        });
         popup_jtree.add(jmi_loadFile);
 
         jmi_refresh.setText("Refresh Trees");
+        jmi_refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_refreshActionPerformed(evt);
+            }
+        });
         popup_jtree.add(jmi_refresh);
 
         jmi_clear.setText("Clear Table\n");
@@ -86,6 +99,11 @@ public class CSV extends javax.swing.JFrame {
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Archivos CSV");
         jtree_archivosCSV.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jtree_archivosCSV.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtree_archivosCSVMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtree_archivosCSV);
 
         jtable_tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
@@ -268,9 +286,8 @@ public class CSV extends javax.swing.JFrame {
                     ap.getListaProductos().add(p);
                 }
                 
-                
-                
                 ap.escribirArchivo();
+                JOptionPane.showMessageDialog(this, "archivo creado exitosamente");
                 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -292,20 +309,16 @@ public class CSV extends javax.swing.JFrame {
                      while  ((linea=br.readLine()) != null){
                          if (cont==0){
                              String titulos [] = linea.split(",");
-                             for (int i = 0; i < titulos.length; i++) {
-                                 tabla.addColumn(titulos[i]);
-                             }
+                             tabla.addColumn(titulos);
                              cont++;
                          }
                          else{
-                             String productos [] = linea.split(",");
-                             for (int i = 0; i < productos.length; i++) {
-                                 tabla.addColumn(productos[i]);
-                             }
+                             Object productos [] = linea.split(",");
+                             tabla.addRow(productos);
                          }
                      }
                      jtable_tablaProductos.setModel(tabla);
-                      br.close();
+                 br.close();
                  fr.close();
                      
                  }
@@ -314,33 +327,49 @@ public class CSV extends javax.swing.JFrame {
                      JOptionPane.showMessageDialog(this, "Este archivo no existe");
                  }
             } catch (Exception e) {
+                e.printStackTrace();
             }
                
-                
-                
-                
-                
-                
-                    JOptionPane.showMessageDialog(this, "Este archivo no existe");
-                
-            
         }
         else  if (comando[0].equals("./clear") ){
             for (int i = 0; i < tabla.getRowCount(); i++) {
-                    for (int j = 0; j < tabla.getColumnCount(); j++) {
-                        tabla.getValueAt(i, j);
-                    }
-                    
-                    }
+                for (int j = 0; j < tabla.getColumnCount(); j++) {
+                    tabla.setValueAt(" ", i, j);
+                }
+            }
             
             jtable_tablaProductos.setModel(tabla);
         }
         else  if (comando[0].equals("./refresh") ){
+            DefaultTreeModel arbol = (DefaultTreeModel) jtree_archivosCSV.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode)arbol.getRoot();
             
+            
+            DefaultMutableTreeNode nodo = (DefaultMutableTreeNode)arbol.getRoot();
+            
+            
+            
+            
+            //raiz.add()
         }
         
         
     }//GEN-LAST:event_bt_enterMouseClicked
+
+    private void jtree_archivosCSVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtree_archivosCSVMouseClicked
+        
+            if (evt.isMetaDown()) {
+             popup_jtree.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+    }//GEN-LAST:event_jtree_archivosCSVMouseClicked
+
+    private void jmi_loadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_loadFileActionPerformed
+        //popuploadfile
+    }//GEN-LAST:event_jmi_loadFileActionPerformed
+
+    private void jmi_refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_refreshActionPerformed
+       //popuprefreshtrees
+    }//GEN-LAST:event_jmi_refreshActionPerformed
 
     
     
