@@ -4,6 +4,9 @@
  */
 package lab7p2_alejandrareyes;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  *
  * @author aleja
@@ -77,6 +80,22 @@ public class Producto {
     public String toString() {
         return nombre;
     }
+    
+    public static boolean categoryValidacion (String cad){
+        String regex = "^[0-9]$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(cad);
+       return matcher.matches();
+    }
+    
+    public static boolean aislebinValidacion (String cad){
+        String regex = "[100-999]{3}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(cad);
+       return matcher.matches();
+    }
+    
+    
     
     
     

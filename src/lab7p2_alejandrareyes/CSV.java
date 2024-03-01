@@ -5,12 +5,15 @@
 package lab7p2_alejandrareyes;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -85,30 +88,7 @@ public class CSV extends javax.swing.JFrame {
 
         jtable_tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "id", "name", "category", "price", "aisle", "bin"
@@ -212,19 +192,66 @@ public class CSV extends javax.swing.JFrame {
 
     private void bt_enterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_enterMouseClicked
         //./create archivo.txt -single
+        DefaultTableModel tabla = (DefaultTableModel) jtable_tablaProductos.getModel();
         String comando [] = tf_commandline.getText().split(" ");
-        if (comando[0].equals("./create") && comando[2].equals("-single")){
+       
+        
+        if (comando[0].equals("./create") && comando[2].equals("-single") && tabla != null){
+            File archivo = null;
+            try{
+                administrarProd ap = new administrarProd(comando[1]);
+                ap.cargarArchivo();
+                int id=0,category=0,aisle=0,bin=0;
+                String nombre="";
+                double price=0;
+                
+                tabla.setRowCount(tabla.getRowCount());
+                tabla.setColumnCount(tabla.getColumnCount());
+                
+                for (int i = 0; i < tabla.getRowCount(); i++) {
+                    for (int j = 0; j < tabla.getColumnCount(); j++) {
+                        if (tabla.getValueAt(i, j) != null) {
+                            if (j == 0) {
+                                id = (Integer) tabla.getValueAt(i, j);
+                            } else if (j == 1) {
+                                nombre = (String) tabla.getValueAt(i, j);
+                            } else if (j == 2) {
+                                category = (Integer) tabla.getValueAt(i, j);
+
+                            } else if (j == 3) {
+                               price = (Double) tabla.getValueAt(i, j);
+                            }
+                             else if (j == 4) {
+                                aisle = (Integer) tabla.getValueAt(i, j);
+                            }
+                         else if (j == 5) {
+                             bin = (Integer) tabla.getValueAt(i, j);
+
+                            }
+                        }
+                        Producto p = new Producto(id, category, aisle, bin, nombre, price);
+                        ap.getListaProductos().add(p);
+                        
+                    }
+                    
+                }
+                
+                ap.escribirArchivo();
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
             
         }
+        else{
+            JOptionPane.showMessageDialog(this, "La tabla esta vacia, ingrese datos");
+        }
+        
     }//GEN-LAST:event_bt_enterMouseClicked
 
     
-    public static boolean matches (String cad){
-        String regex = "";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(cad);
-       return matcher.matches();
-    }
+    
     
     
     /**
