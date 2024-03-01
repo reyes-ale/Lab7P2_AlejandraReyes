@@ -48,16 +48,20 @@ public class administrarProd {
         BufferedWriter bw = null;
         
         try {
-            fw = new FileWriter(archivo, false);
+            int cont=0;
+            fw = new FileWriter(archivo, true);
             bw = new BufferedWriter(fw);
+             bw.write("id, name, category, price, aisle, bin");
             for (Producto t : listaProductos) {
-                bw.write("id, name, category, price, aisle, bin");
+                if (cont==0){
+                bw.newLine();
                 bw.write(t.getId()+ ",");
                 bw.write(t.getNombre()+ ",");
                 bw.write(t.getCategory()+ ",");
                 bw.write(t.getPrecio()+ ",");
                 bw.write(t.getAisle()+ ",");
-                bw.write(t.getBin()+ ",");
+                bw.write(t.getBin()+ "");
+                }
                 
             }
             bw.flush();

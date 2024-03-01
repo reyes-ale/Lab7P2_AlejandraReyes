@@ -1,2 +1,2 @@
 id, name, category, price, aisle, bin
-1, ds, 4, 5,4,4
+21232,dfsd,45,4.0,54,4

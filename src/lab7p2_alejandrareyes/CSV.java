@@ -262,10 +262,12 @@ public class CSV extends javax.swing.JFrame {
                         }
                         
                     }
-                }
-                Producto p = new Producto(id, category, aisle, bin, nombre, price);
+                    
+                    Producto p = new Producto(id, category, aisle, bin, nombre, price);
                     System.out.println(p);
                     ap.getListaProductos().add(p);
+                }
+                
                 
                 
                 ap.escribirArchivo();
@@ -298,7 +300,7 @@ public class CSV extends javax.swing.JFrame {
                          else{
                              String productos [] = linea.split(",");
                              for (int i = 0; i < productos.length; i++) {
-                                 tabla.addRow(productos);
+                                 tabla.addColumn(productos[i]);
                              }
                          }
                      }
