@@ -72,6 +72,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Clear Command Line"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jmi_clearCommandLMouseClicked"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jmi_clearTable">
                   <Properties>
@@ -104,6 +107,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Commands"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenuItem7MouseClicked"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

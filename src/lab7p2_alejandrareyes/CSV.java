@@ -15,6 +15,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.naming.spi.DirectoryManager;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -195,6 +196,11 @@ public class CSV extends javax.swing.JFrame {
         jm_clear.setText("Clear");
 
         jmi_clearCommandL.setText("Clear Command Line");
+        jmi_clearCommandL.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jmi_clearCommandLMouseClicked(evt);
+            }
+        });
         jm_clear.add(jmi_clearCommandL);
 
         jmi_clearTable.setText("Clear Table");
@@ -218,6 +224,11 @@ public class CSV extends javax.swing.JFrame {
         jMenu3.add(jmi_productStructure);
 
         jMenuItem7.setText("Commands");
+        jMenuItem7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem7MouseClicked(evt);
+            }
+        });
         jMenu3.add(jMenuItem7);
 
         jMenuBar1.add(jMenu3);
@@ -296,39 +307,29 @@ public class CSV extends javax.swing.JFrame {
         else  if (comando[0].equals("./load") ){
                 int cont =0;
             
-                FileReader fr= null;
-                BufferedReader br =null;
+               Scanner s = null;
                 File f= null;
                 
                 try {
                  f = new File(comando[1]);
+                 
                  if (f.exists()){
-                     fr = new FileReader(f);
-                     br = new BufferedReader(fr);
+                     s = new Scanner (f);
                      String linea = "";
-                     while  ((linea=br.readLine()) != null){
-                         if (cont==0){
-                             String titulos [] = linea.split(",");
-                             tabla.addColumn(titulos);
-                             cont++;
-                         }
-                         else{
-                             Object productos [] = linea.split(",");
-                             tabla.addRow(productos);
-                         }
+                     while  (s.hasNext()){
+                         Object productos[] = s.next().split(",");
+                         tabla.addRow(productos);
                      }
-                     jtable_tablaProductos.setModel(tabla);
-                 br.close();
-                 fr.close();
-                     
+                 
+                 s.close();
                  }
-                
                  else {
                      JOptionPane.showMessageDialog(this, "Este archivo no existe");
                  }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+                jtable_tablaProductos.setModel(tabla);
                
         }
         else  if (comando[0].equals("./clear") ){
@@ -343,8 +344,7 @@ public class CSV extends javax.swing.JFrame {
         else  if (comando[0].equals("./refresh") ){
             DefaultTreeModel arbol = (DefaultTreeModel) jtree_archivosCSV.getModel();
             DefaultMutableTreeNode raiz = (DefaultMutableTreeNode)arbol.getRoot();
-            
-            
+
             DefaultMutableTreeNode nodo = (DefaultMutableTreeNode)arbol.getRoot();
             
             
@@ -368,8 +368,16 @@ public class CSV extends javax.swing.JFrame {
     }//GEN-LAST:event_jmi_loadFileActionPerformed
 
     private void jmi_refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_refreshActionPerformed
-       //popuprefreshtrees
+       JFileChooser fc = new JFileChooser();
     }//GEN-LAST:event_jmi_refreshActionPerformed
+
+    private void jmi_clearCommandLMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_clearCommandLMouseClicked
+       tf_commandline.setText("");
+    }//GEN-LAST:event_jmi_clearCommandLMouseClicked
+
+    private void jMenuItem7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem7MouseClicked
+        JOptionPane.showMessageDialog(this, "Comando: ./load data.txt --> carga data de un archivo a la tabla \n Comando: ./create archivo.txt -single --> crea un archivo en base a una tabla \n Comando: ./clear --> vacia la tabla \n Comando: ./refresh --> refresca los arboles con los nuevos files");
+    }//GEN-LAST:event_jMenuItem7MouseClicked
 
     
     
