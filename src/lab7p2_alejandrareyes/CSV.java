@@ -246,12 +246,22 @@ public class CSV extends javax.swing.JFrame {
                 jmi_productStructureMouseClicked(evt);
             }
         });
+        jmi_productStructure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_productStructureActionPerformed(evt);
+            }
+        });
         jMenu3.add(jmi_productStructure);
 
         jMenuItem7.setText("Commands");
         jMenuItem7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuItem7MouseClicked(evt);
+            }
+        });
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
             }
         });
         jMenu3.add(jMenuItem7);
@@ -352,8 +362,6 @@ public class CSV extends javax.swing.JFrame {
                          Object productos[] = s.next().split(",");
                          tabla.addRow(productos);
                          
-                         
-                         tabla.setValueAt(productos[1], cont, cont);
                      }
                  
                  s.close();
@@ -481,6 +489,17 @@ public class CSV extends javax.swing.JFrame {
 "guarda el producto,");
     }//GEN-LAST:event_jmi_productStructureMouseClicked
 
+    private void jmi_productStructureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_productStructureActionPerformed
+       JOptionPane.showMessageDialog(this, "id: es un entero. \n name:nombre del producto, representado por una cadena, \n category:categoría del producto. Puede tener los valores enteros del 0 al 9. \n price: el precio del producto \n aisle: número "
+                + "de pasillo donde se guarda el producto, \n bin: lugar exacto donde se\n" +
+"guarda el producto,");
+    }//GEN-LAST:event_jmi_productStructureActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        JOptionPane.showMessageDialog(this, "Comando: ./load data.txt --> carga data de un archivo a la tabla \n Comando: ./create archivo.txt -single --> crea un archivo en base a una tabla \n Comando: ./clear --> vacia la tabla \n Comando: ./refresh --> refresca los arboles con los nuevos files");
+    
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
     
     public void arbolrefresh (){
         DefaultTreeModel arbol = (DefaultTreeModel) jtree_archivosCSV.getModel();
@@ -501,9 +520,8 @@ public class CSV extends javax.swing.JFrame {
     public void limpiar (){
         DefaultTableModel tabla = (DefaultTableModel) jtable_tablaProductos.getModel();
         for (int i = 0; i < tabla.getRowCount(); i++) {
-            for (int j = 0; j < tabla.getRowCount(); i++) {
             tabla.removeRow(i);
-        }
+        
         }
     }
     
