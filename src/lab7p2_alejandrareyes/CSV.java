@@ -204,6 +204,11 @@ public class CSV extends javax.swing.JFrame {
         jm_clear.add(jmi_clearCommandL);
 
         jmi_clearTable.setText("Clear Table");
+        jmi_clearTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jmi_clearTableMouseClicked(evt);
+            }
+        });
         jm_clear.add(jmi_clearTable);
 
         jMenu2.add(jm_clear);
@@ -289,12 +294,17 @@ public class CSV extends javax.swing.JFrame {
 
                             }
                         }
+                        else {
+                            break;
+                        }
                         
                     }
+                    
                     
                     Producto p = new Producto(id, category, aisle, bin, nombre, price);
                     System.out.println(p);
                     ap.getListaProductos().add(p);
+                    
                 }
                 
                 ap.escribirArchivo();
@@ -306,6 +316,7 @@ public class CSV extends javax.swing.JFrame {
         }
         else  if (comando[0].equals("./load") ){
                 int cont =0;
+                tabla.setRowCount(0);
             
                Scanner s = null;
                 File f= null;
@@ -317,8 +328,12 @@ public class CSV extends javax.swing.JFrame {
                      s = new Scanner (f);
                      String linea = "";
                      while  (s.hasNext()){
+                        s.next();
                          Object productos[] = s.next().split(",");
                          tabla.addRow(productos);
+                         
+                         
+                         tabla.setValueAt(productos[1], cont, cont);
                      }
                  
                  s.close();
@@ -342,10 +357,10 @@ public class CSV extends javax.swing.JFrame {
             jtable_tablaProductos.setModel(tabla);
         }
         else  if (comando[0].equals("./refresh") ){
-            DefaultTreeModel arbol = (DefaultTreeModel) jtree_archivosCSV.getModel();
-            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode)arbol.getRoot();
+            
 
-            DefaultMutableTreeNode nodo = (DefaultMutableTreeNode)arbol.getRoot();
+            
+            
             
             
             
@@ -368,7 +383,7 @@ public class CSV extends javax.swing.JFrame {
     }//GEN-LAST:event_jmi_loadFileActionPerformed
 
     private void jmi_refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_refreshActionPerformed
-       JFileChooser fc = new JFileChooser();
+       arbolrefresh();
     }//GEN-LAST:event_jmi_refreshActionPerformed
 
     private void jmi_clearCommandLMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_clearCommandLMouseClicked
@@ -379,8 +394,35 @@ public class CSV extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Comando: ./load data.txt --> carga data de un archivo a la tabla \n Comando: ./create archivo.txt -single --> crea un archivo en base a una tabla \n Comando: ./clear --> vacia la tabla \n Comando: ./refresh --> refresca los arboles con los nuevos files");
     }//GEN-LAST:event_jMenuItem7MouseClicked
 
+    private void jmi_clearTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_clearTableMouseClicked
+       limpiar();
+    }//GEN-LAST:event_jmi_clearTableMouseClicked
+
     
+    public void arbolrefresh (){
+        DefaultTreeModel arbol = (DefaultTreeModel) jtree_archivosCSV.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode)arbol.getRoot();
+        File carp = new File (".");
+       File archivos [] = carp.listFiles();
+       if (archivos != null){
+        for (int i = 0; i < archivos.length; i++) {
+            if (archivos[i].getPath().endsWith("txt")){
+               DefaultMutableTreeNode nodo = new DefaultMutableTreeNode (archivos [i]);
+               raiz.add(nodo);
+            }
+        }
+       }
+       arbol.reload();
+    }
     
+    public void limpiar (){
+        DefaultTableModel tabla = (DefaultTableModel) jtable_tablaProductos.getModel();
+        for (int i = 0; i < tabla.getRowCount(); i++) {
+            for (int j = 0; j < tabla.getRowCount(); i++) {
+            tabla.removeRow(i);
+        }
+        }
+    }
     
     
     /**
@@ -417,6 +459,8 @@ public class CSV extends javax.swing.JFrame {
             }
         });
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_enter;
@@ -444,4 +488,5 @@ public class CSV extends javax.swing.JFrame {
     private javax.swing.JPopupMenu popup_table;
     private javax.swing.JTextField tf_commandline;
     // End of variables declaration//GEN-END:variables
+ 
 }
