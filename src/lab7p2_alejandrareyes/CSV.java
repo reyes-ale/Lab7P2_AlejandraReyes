@@ -241,6 +241,11 @@ public class CSV extends javax.swing.JFrame {
         jMenu3.setText("Help");
 
         jmi_productStructure.setText("Product Structure");
+        jmi_productStructure.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jmi_productStructureMouseClicked(evt);
+            }
+        });
         jMenu3.add(jmi_productStructure);
 
         jMenuItem7.setText("Commands");
@@ -270,7 +275,7 @@ public class CSV extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jmi_refreshTreesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_refreshTreesActionPerformed
-        // TODO add your handling code here:
+        arbolrefresh();
     }//GEN-LAST:event_jmi_refreshTreesActionPerformed
 
     private void bt_enterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_enterMouseClicked
@@ -416,8 +421,65 @@ public class CSV extends javax.swing.JFrame {
     }//GEN-LAST:event_jmi_clearActionPerformed
 
     private void jmi_newFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_newFileMouseClicked
-        // TODO add your handling code here:
+         DefaultTableModel tabla = (DefaultTableModel) jtable_tablaProductos.getModel();
+         String nombre = JOptionPane.showInputDialog("Ingrese el nombre del archivo");
+         
+         try{
+                administrarProd ap = new administrarProd("./"+nombre);
+                ap.cargarArchivo();
+                
+                int id=0,category=0,aisle=0,bin=0;
+                String name="";
+                double price=0;
+                
+                for (int i = 0; i < tabla.getRowCount(); i++) {
+                    for (int j = 0; j < tabla.getColumnCount(); j++) {
+                        if (tabla.getValueAt(i, j) != null) {
+                            if (j == 0) {
+                                id = (Integer) tabla.getValueAt(i, j);
+                            } else if (j == 1) {
+                                name = (String) tabla.getValueAt(i, j);
+                            } else if (j == 2) {
+                                category = (Integer) tabla.getValueAt(i, j);
+
+                            } else if (j == 3) {
+                               price = (Double) tabla.getValueAt(i, j);
+                            }
+                             else if (j == 4) {
+                                aisle = (Integer) tabla.getValueAt(i, j);
+                            }
+                         else if (j == 5) {
+                             bin = (Integer) tabla.getValueAt(i, j);
+
+                            }
+                        }
+                        else {
+                            break;
+                        }
+                        
+                    }
+                    
+                    
+                    Producto p = new Producto(id, category, aisle, bin, name, price);
+                    System.out.println(p);
+                    ap.getListaProductos().add(p);
+                    
+                }
+                
+                ap.escribirArchivo();
+                JOptionPane.showMessageDialog(this, "archivo creado exitosamente");
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+         
     }//GEN-LAST:event_jmi_newFileMouseClicked
+
+    private void jmi_productStructureMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_productStructureMouseClicked
+        JOptionPane.showMessageDialog(this, "id: es un entero. \n name:nombre del producto, representado por una cadena, \n category:categoría del producto. Puede tener los valores enteros del 0 al 9. \n price: el precio del producto \n aisle: número "
+                + "de pasillo donde se guarda el producto, \n bin: lugar exacto donde se\n" +
+"guarda el producto,");
+    }//GEN-LAST:event_jmi_productStructureMouseClicked
 
     
     public void arbolrefresh (){
