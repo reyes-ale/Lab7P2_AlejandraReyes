@@ -85,6 +85,11 @@ public class CSV extends javax.swing.JFrame {
         popup_jtree.add(jmi_refresh);
 
         jmi_clear.setText("Clear Table\n");
+        jmi_clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_clearActionPerformed(evt);
+            }
+        });
         popup_table.add(jmi_clear);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -147,6 +152,11 @@ public class CSV extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        jtable_tablaProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtable_tablaProductosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jtable_tablaProductos);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -184,6 +194,11 @@ public class CSV extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         jmi_newFile.setText("New File");
+        jmi_newFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jmi_newFileMouseClicked(evt);
+            }
+        });
         jMenu1.add(jmi_newFile);
 
         jmi_importFile.setText("Import File");
@@ -357,15 +372,7 @@ public class CSV extends javax.swing.JFrame {
             jtable_tablaProductos.setModel(tabla);
         }
         else  if (comando[0].equals("./refresh") ){
-            
-
-            
-            
-            
-            
-            
-            
-            //raiz.add()
+            arbolrefresh();
         }
         
         
@@ -397,6 +404,20 @@ public class CSV extends javax.swing.JFrame {
     private void jmi_clearTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_clearTableMouseClicked
        limpiar();
     }//GEN-LAST:event_jmi_clearTableMouseClicked
+
+    private void jtable_tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtable_tablaProductosMouseClicked
+        if (evt.isMetaDown()) {
+             popup_table.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+    }//GEN-LAST:event_jtable_tablaProductosMouseClicked
+
+    private void jmi_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_clearActionPerformed
+      limpiar();
+    }//GEN-LAST:event_jmi_clearActionPerformed
+
+    private void jmi_newFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_newFileMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmi_newFileMouseClicked
 
     
     public void arbolrefresh (){
